@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Filament\Panel;
+use Filament\Models\Contracts\FilamentUser;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasRoles;
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -93,5 +95,28 @@ class User extends Authenticatable
     public function scopeAdmins($query)
     {
         return $query->where('type', 'admin');
+    }
+
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // Super admin bypass all checks
+        if ($this->hasRole('super_admin')) {
+            return true;
+        }
+
+        // Admin can access
+        if ($this->hasRole('admin')) {
+            return true;
+        }
+
+        // Teachers can access
+        if ($this->hasRole('teacher')) {
+            return true;
+        }
+
+        // students cannot access admin panel
+        // (they will have their own dashboard later)
+        return false;
     }
 }
