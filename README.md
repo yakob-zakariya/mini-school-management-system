@@ -1,6 +1,6 @@
 # 🎓 Mini School Management System
 
-A comprehensive school management system built with Laravel 11 and Filament 3, designed to manage students, teachers, grades, subjects, enrollments, and marks efficiently.
+A minimal school management system built with Laravel 12 and Filament 4, designed to manage students, teachers, grades, subjects, enrollments, and marks efficiently.
 
 ## 🌐 Live Demo
 
@@ -27,7 +27,7 @@ Try the application with these pre-configured demo accounts:
 -   ✅ **Subject Management** - Create subjects and assign them to grades with teachers
 -   ✅ **Enrollment Management** - Enroll students in subjects
 -   ✅ **Marks Management** - View all marks across the system
--   ✅ **Role-based Access Control** - Using Spatie Laravel Permission
+-   ✅ **Role-based Access Control** - Laravel Shield
 
 ### 👨‍🏫 Teacher Features
 
@@ -68,11 +68,9 @@ The database schema design is available in the root directory: [`database-schema
 
 -   **Framework:** Laravel 12
 -   **Admin Panel:** Filament 4
--   **Authentication:** Laravel Shield
+-   **Authentication:** Laravel filament
 -   **Authorization:** Laravel Schiled
--
-
----
+-   ***
 
 ## 📦 Installation
 
@@ -88,7 +86,7 @@ The database schema design is available in the root directory: [`database-schema
 1. **Clone the repository**
 
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/yakob-zakariya/mini-school-management-system.git
     cd mini-school-management-system
     ```
 
