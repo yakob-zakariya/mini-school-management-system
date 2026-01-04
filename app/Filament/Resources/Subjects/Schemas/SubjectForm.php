@@ -30,12 +30,6 @@ class SubjectForm
                     ->rows(3)
                     ->maxLength(1000),
 
-                Select::make('teacher_id')
-                    ->relationship('teacher', 'name', fn($query) => $query->where('type', 'teacher'))
-                    ->searchable()
-                    ->preload()
-                    ->label('Assigned Teacher')
-                    ->placeholder('Select a teacher'),
             ]);
     }
 }

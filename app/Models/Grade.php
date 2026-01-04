@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use  \Illuminate\Container\Attributes\DB;
 
 class Grade extends Model
 {
@@ -33,6 +34,7 @@ class Grade extends Model
     public function subjects(): BelongsToMany
     {
         return $this->belongsToMany(Subject::class, 'grade_subject')
+            ->withPivot('teacher_id')
             ->withTimestamps();
     }
 
@@ -43,9 +45,28 @@ class Grade extends Model
     }
 
     // Students enrolled in this grade
-    public function students(): BelongsToMany
+    public function students()
     {
-        return $this->belongsToMany(User::class, 'enrollments', 'grade_id', 'student_id')
-            ->withTimestamps();
+        return $this->hasMany(User::class, 'current_grade_id')->where('type', 'student');
+    }
+
+    // Get all subject-teacher assignments for this grade
+    public function subjectTeachers()
+    {
+        return $this->belongsToMany(Subject::class, 'grade_subject')
+            ->withPivot('teacher_id')
+            ->withTimestamps()
+            ->with('teacher'); // Eager load teacher
+    }
+
+    // Get teacher for a specific subject in this grade
+    public function getTeacherForSubject($subjectId)
+    {
+        $pivot = DB::table('grade_subject')
+            ->where('grade_id', $this->id)
+            ->where('subject_id', $subjectId)
+            ->first();
+
+        return $pivot ? User::find($pivot->teacher_id) : null;
     }
 }

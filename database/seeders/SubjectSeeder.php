@@ -23,9 +23,7 @@ class SubjectSeeder extends Seeder
         foreach ($subjects as $index => $subjectData) {
             Subject::firstOrCreate(
                 ['code' => $subjectData['code']],
-                array_merge($subjectData, [
-                    'teacher_id' => $teachers[$index % $teachers->count()]->id ?? null,
-                ])
+                $subjectData
             );
         }
     }

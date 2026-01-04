@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('grade_id')->constrained()->onDelete('cascade');
             $table->foreignId('subject_id')->constrained()->onDelete('cascade');
+
+            $table->foreignId('teacher_id')->nullable()->constrained('users')->onDelete('set null');
+
             $table->timestamps();
 
             // Prevent duplicate subject assignments to same grade

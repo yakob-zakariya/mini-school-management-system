@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SubjectSeeder::class,
             GradeSeeder::class,
-            EnrollmentSeeder::class,
-            MarkSeeder::class,
+            // EnrollmentSeeder::class,
+            // MarkSeeder::class,
         ]);
     }
 }

@@ -14,11 +14,19 @@ return new class extends Migration
         Schema::create('marks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('enrollment_id')->constrained()->onDelete('cascade');
-            $table->decimal('marks', 5, 2); // e.g., 95.50
-            $table->decimal('total_marks', 5, 2)->default(100); // out of 100
-            $table->string('exam_type')->nullable(); // e.g., "Midterm", "Final", "Quiz"
-            $table->date('exam_date')->nullable();
-            $table->text('remarks')->nullable();
+            $table->decimal('quiz_marks', 5, 2)->nullable();
+            $table->decimal('quiz_max', 5, 2)->default(10);
+            $table->decimal('assignment_marks', 5, 2)->nullable();
+            $table->decimal('assignment_max', 5, 2)->default(20);
+            $table->decimal('midterm_marks', 5, 2)->nullable();
+            $table->decimal('midterm_max', 5, 2)->default(20);
+            $table->decimal('final_marks', 5, 2)->nullable();
+            $table->decimal('final_max', 5, 2)->default(50);
+            $table->decimal('total_marks', 5, 2)->nullable();
+            $table->decimal('total_max', 5, 2)->default(100);
+            $table->decimal('percentage', 5, 2)->nullable();
+            $table->string('grade_letter')->nullable();
+
             $table->timestamps();
         });
     }

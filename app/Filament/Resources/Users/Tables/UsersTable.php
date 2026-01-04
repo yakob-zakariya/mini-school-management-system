@@ -32,6 +32,14 @@ class UsersTable
                     ->searchable()
                     ->sortable(),
 
+                TextColumn::make('currentGrade.name')
+                    ->label('Current Grade')
+                    ->searchable()
+                    ->sortable()
+                    ->default('Not Assigned')
+                    ->badge()
+                    ->color(fn($state) => $state ? 'success' : 'gray'),
+
                 TextColumn::make('roles.name')
                     ->badge()
                     ->separator(','),

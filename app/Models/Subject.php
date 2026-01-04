@@ -13,14 +13,10 @@ class Subject extends Model
         'name',
         'code',
         'description',
-        'teacher_id',
+
     ];
 
-    // Teacher assigned to this subject
-    public function teacher(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'teacher_id');
-    }
+
 
     // Grades that have this subject
     public function grades(): BelongsToMany

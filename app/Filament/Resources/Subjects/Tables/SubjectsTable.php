@@ -19,16 +19,12 @@ class SubjectsTable
                     ->searchable(),
                 TextColumn::make('code')
                     ->searchable(),
-                TextColumn::make('teacher.name')
-                    ->searchable(),
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+
             ])
             ->filters([
                 //

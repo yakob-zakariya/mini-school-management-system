@@ -31,6 +31,7 @@ class User extends Authenticatable implements FilamentUser
         'date_of_birth',
         'employee_id',
         'student_id',
+        'current_grade_id',
     ];
 
     /**
@@ -75,6 +76,10 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Enrollment::class, 'student_id');
     }
 
+    public function currentGrade()
+    {
+        return $this->belongsTo(Grade::class, 'current_grade_id');
+    }
     // Marks for students
     public function marks()
     {
@@ -115,8 +120,12 @@ class User extends Authenticatable implements FilamentUser
             return true;
         }
 
-        // students cannot access admin panel
-        // (they will have their own dashboard later)
+        // Students can access (to view their marks)
+        if ($this->hasRole('student')) {
+            return true;
+        }
+
+        // Default: deny access
         return false;
     }
 }

@@ -23,17 +23,28 @@ class EnrollmentForm
 
                 Select::make('grade_id')
                     ->relationship('grade', 'name')
+                    ->required()
                     ->searchable()
                     ->preload()
-                    ->required()
-                    ->live()
+                    ->reactive()  // ← Makes it reactive
                     ->label('Grade'),
+
                 Select::make('subject_id')
-                    ->relationship('subject', 'name')
-                    ->searchable()
-                    ->preload()
+                    ->label('Subject')
                     ->required()
-                    ->label('Subject'),
+                    ->searchable()
+                    ->options(function (callable $get) {
+                        $gradeId = $get('grade_id');
+                        if (!$gradeId) {
+                            return \App\Models\Subject::pluck('name', 'id');
+                        }
+
+                        // Only show subjects assigned to the selected grade
+                        return \App\Models\Subject::whereHas('grades', function ($query) use ($gradeId) {
+                            $query->where('grades.id', $gradeId);
+                        })->pluck('name', 'id');
+                    })
+                    ->helperText('Only subjects assigned to the selected grade are shown'),
 
                 TextInput::make('academic_year')
                     ->required()

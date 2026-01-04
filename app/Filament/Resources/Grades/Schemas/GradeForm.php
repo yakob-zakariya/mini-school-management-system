@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Grades\Schemas;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Repeater;
 
 class GradeForm
 {
@@ -35,13 +36,28 @@ class GradeForm
                     ->preload()
                     ->label('Class Teacher')
                     ->placeholder('Select a class teacher'),
-                Select::make('subjects')
-                    ->relationship('subjects', 'name')
-                    ->multiple()
-                    ->preload()
-                    ->searchable()
-                    ->label('Subjects')
-                    ->helperText('Select subjects taught in this grade'),
+
+                // Repeater::make('subjectsAssignments')
+                //     ->columnSpanFull()
+                //     ->relationship('subjects')
+                //     ->schema([
+                //         Select::make('id')
+                //             ->label('Subject')
+                //             ->options(\App\Models\Subject::pluck('name', 'id'))
+                //             ->required()
+                //             ->searchable(),
+
+                //         Select::make('teacher_id')
+                //             ->label('Teacher')
+                //             ->options(\App\Models\User::where('type', 'teacher')->pluck('name', 'id'))
+                //             ->searchable()
+                //             ->placeholder('Select teacher for this subject'),
+
+                //     ])
+                //     ->columns(2)
+                //     ->label('Subjects & Teachers')
+                //     ->helperText('Assign subjects and their teachers for this grade'),
+
             ]);
     }
 }

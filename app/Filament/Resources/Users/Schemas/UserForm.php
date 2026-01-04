@@ -6,8 +6,10 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Hash;
+use Filament\Schemas\Components\Utilities\Get;
 
 class UserForm
 {
@@ -84,6 +86,15 @@ class UserForm
                     ->unique(ignoreRecord: true)
                     ->visible(fn(callable $get) => $get('type') === 'student')
                     ->required(fn(callable $get) => $get('type') === 'student'),
+
+                Select::make('current_grade_id')
+                    ->relationship('currentGrade', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->label('Current Grade')
+                    ->placeholder('Select a grade')
+                    ->visible(fn(Get $get) => $get('type') === 'student')
+                    ->helperText('Assigning a grade will automatically enroll the student in all subjects of that grade'),
             ]);
     }
 }
