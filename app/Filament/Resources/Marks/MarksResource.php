@@ -20,13 +20,13 @@ class MarksResource extends Resource
 {
     protected static ?string $model = Mark::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAcademicCap;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentCheck;
 
-    protected static UnitEnum|string|null $navigationGroup = 'Teaching';
+    protected static UnitEnum|string|null $navigationGroup = 'Academic Management';
 
-    protected static ?string $navigationLabel = 'Marks Entry';
+    protected static ?string $navigationLabel = 'Marks';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 5;
 
     public static function form(Schema $schema): Schema
     {

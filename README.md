@@ -1,59 +1,183 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎓 Mini School Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive school management system built with Laravel 11 and Filament 3, designed to manage students, teachers, grades, subjects, enrollments, and marks efficiently.
 
-## About Laravel
+## 🌐 Live Demo
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**🚀 Application URL:** [https://mini-school-management-system-main-iiudvb.laravel.cloud/admin](https://mini-school-management-system-main-iiudvb.laravel.cloud/admin)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 👥 Demo Users
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Try the application with these pre-configured demo accounts:
 
-## Learning Laravel
+| Role        | Email                      | Password   | Access Level                               |
+| ----------- | -------------------------- | ---------- | ------------------------------------------ |
+| **Admin**   | `admin@school.com`         | `password` | Full system access - manage all resources  |
+| **Teacher** | `yahya.teacher@school.com` | `password` | View and enter marks for assigned subjects |
+| **Student** | `alice@school.com`         | `password` | View own marks (read-only)                 |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ✨ Features
 
-## Laravel Sponsors
+### 👨‍💼 Admin Features
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+-   ✅ **User Management** - Create and manage admins, teachers, and students
+-   ✅ **Grade Management** - Create grades/classes with sections and assign class teachers
+-   ✅ **Subject Management** - Create subjects and assign them to grades with teachers
+-   ✅ **Enrollment Management** - Enroll students in subjects
+-   ✅ **Marks Management** - View all marks across the system
+-   ✅ **Role-based Access Control** - Using Spatie Laravel Permission
 
-### Premium Partners
+### 👨‍🏫 Teacher Features
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+-   ✅ **My Grades** - View only grades where they teach subjects
+-   ✅ **Enter Marks** - Bulk entry interface for entering marks for their students
+    -   Quiz marks (out of 10)
+    -   Assignment marks (out of 20)
+    -   Midterm marks (out of 20)
+    -   Final marks (out of 50)
+    -   Auto-calculated total, percentage, and grade letter
+-   ✅ **View Marks** - View marks for subjects they teach
 
-## Contributing
+### 👨‍🎓 Student Features
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-   ✅ **My Marks** - View their own marks for all enrolled subjects
+-   ✅ **Read-only Access** - Cannot create, edit, or delete any data
+-   ✅ **Grade Overview** - See quiz, assignment, midterm, final scores with total percentage and grade letter
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🏗️ Database Schema
 
-## Security Vulnerabilities
+The database schema design is available in the root directory: [`database-schema-design.png`](./database-schema-design.png)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Key Tables:
 
-## License
+-   **users** - Stores all users (admins, teachers, students)
+-   **grades** - Grade/class information with sections and academic year
+-   **subjects** - Subject information
+-   **grade_subject** - Pivot table linking grades and subjects with assigned teachers
+-   **enrollments** - Student enrollments in subjects
+-   **marks** - Student marks with quiz, assignment, midterm, final scores
+-   **roles & permissions** - Spatie permission tables for role-based access control
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🛠️ Technology Stack
+
+-   **Framework:** Laravel 12
+-   **Admin Panel:** Filament 4
+-   **Authentication:** Laravel Shield
+-   **Authorization:** Laravel Schiled
+-
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+
+-   PHP 8.2 or higher
+-   Composer
+-   MySQL or MariaDB
+-   Node.js & NPM
+
+### Steps
+
+1. **Clone the repository**
+
+    ```bash
+    git clone <repository-url>
+    cd mini-school-management-system
+    ```
+
+2. **Install PHP dependencies**
+
+    ```bash
+    composer install
+    ```
+
+3. **Install NPM dependencies**
+
+    ```bash
+    npm install
+    npm run build
+    ```
+
+4. **Environment setup**
+
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+
+5. **Configure database**
+
+    Edit `.env` file with your database credentials:
+
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=school_management
+    DB_USERNAME=your_username
+    DB_PASSWORD=your_password
+    ```
+
+6. **Run migrations and seeders**
+
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
+
+7. **Start the development server**
+
+    ```bash
+    php artisan serve
+    ```
+
+8. **Access the application**
+
+    Open your browser and navigate to: `http://localhost:8000/admin`
+
+---
+
+## 📊 Grading System
+
+The system uses the following grading scale:
+
+| Percentage | Grade Letter |
+| ---------- | ------------ |
+| 90% - 100% | A+           |
+| 85% - 89%  | A            |
+| 80% - 84%  | B+           |
+| 75% - 79%  | B            |
+| 70% - 74%  | C+           |
+| 65% - 69%  | C            |
+| 60% - 64%  | D            |
+| Below 60%  | F            |
+
+### Marks Distribution (Total: 100)
+
+-   **Quiz:** 10 marks
+-   **Assignment:** 20 marks
+-   **Midterm Exam:** 20 marks
+-   **Final Exam:** 50 marks
+
+---
+
+## 🔐 Security Features
+
+-   ✅ Role-based access control (Admin, Teacher, Student)
+-   ✅ Teachers can only view/edit marks for subjects they teach
+-   ✅ Students can only view their own marks
+-   ✅ Password hashing using Laravel's bcrypt
+-   ✅ CSRF protection on all forms
+-   ✅ SQL injection prevention through Eloquent ORM
+
+---
+
+## 📝 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
