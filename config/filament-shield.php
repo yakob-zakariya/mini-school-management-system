@@ -122,8 +122,17 @@ return [
         'merge' => true,
         'generate' => true,
         'methods' => [
-            'viewAny', 'view', 'create', 'update', 'delete', 'restore',
-            'forceDelete', 'forceDeleteAny', 'restoreAny', 'replicate', 'reorder',
+            'viewAny',
+            'view',
+            'create',
+            'update',
+            'delete',
+            'restore',
+            'forceDelete',
+            'forceDeleteAny',
+            'restoreAny',
+            'replicate',
+            'reorder',
         ],
         'single_parameter_methods' => [
             'viewAny',
@@ -214,6 +223,9 @@ return [
         'exclude' => [
             \Filament\Widgets\AccountWidget::class,
             \Filament\Widgets\FilamentInfoWidget::class,
+            \App\Filament\Widgets\StatsOverview::class,
+            \App\Filament\Widgets\TeacherStatsOverview::class,
+            \App\Filament\Widgets\StudentStatsOverview::class,
         ],
     ],
 
