@@ -8,33 +8,43 @@ use App\Models\Mark;
 use App\Models\Enrollment;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Illuminate\Support\Facades\DB;
 
 class TeacherStatsOverview extends BaseWidget
 {
     protected function getStats(): array
     {
-        $user = auth()->user();
-        
-        // Get teacher's subjects
-        $teacherSubjects = Subject::where('teacher_id', $user->id)->pluck('id');
-        
-        // Get teacher's classes (grades where they teach)
-        $teacherGrades = Grade::whereHas('subjects', function ($query) use ($user) {
-            $query->where('teacher_id', $user->id);
-        })->get();
-        
-        // Count students enrolled in teacher's subjects
-        $studentsCount = Enrollment::whereIn('subject_id', $teacherSubjects)->distinct('student_id')->count('student_id');
-        
-        // Count marks entered by this teacher
-        $marksEntered = Mark::whereIn('subject_id', $teacherSubjects)->count();
-        
-        // Calculate average mark for teacher's subjects
-        $averageMark = Mark::whereIn('subject_id', $teacherSubjects)->avg('mark');
-        
+        try {
+            $user = auth()->user();
+
+            if (!$user) {
+                return [];
+            }
+
+            // Get teacher's subjects
+            $teacherSubjects = Subject::where('teacher_id', $user->id)->pluck('id');
+
+            // Get teacher's classes (grades where they teach)
+            $teacherGrades = Grade::whereHas('subjects', function ($query) use ($user) {
+                $query->where('teacher_id', $user->id);
+            })->count();
+
+            // Count students enrolled in teacher's subjects
+            $studentsCount = Enrollment::whereIn('subject_id', $teacherSubjects)
+                ->distinct()
+                ->count('student_id');
+
+            // Count marks entered by this teacher
+            $marksEntered = Mark::whereIn('subject_id', $teacherSubjects)->count();
+
+            // Calculate average mark for teacher's subjects
+            $averageMark = Mark::whereIn('subject_id', $teacherSubjects)->avg('mark');
+        } catch (\Exception $e) {
+            \Log::error('TeacherStatsOverview Error: ' . $e->getMessage());
+            return [];
+        }
+
         return [
-            Stat::make('My Classes', $teacherGrades->count())
+            Stat::make('My Classes', $teacherGrades)
                 ->description('Classes you teach')
                 ->descriptionIcon('heroicon-o-building-library')
                 ->color('success')
@@ -69,7 +79,11 @@ class TeacherStatsOverview extends BaseWidget
     // Only show for teachers
     public static function canView(): bool
     {
-        return auth()->user()?->hasRole('teacher') ?? false;
+        try {
+            $user = auth()->user();
+            return $user && $user->hasRole('teacher');
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
-

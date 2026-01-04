@@ -11,26 +11,41 @@ class StudentStatsOverview extends BaseWidget
 {
     protected function getStats(): array
     {
-        $user = auth()->user();
-        
-        // Get student's enrollments
-        $enrollments = Enrollment::where('student_id', $user->id)->get();
-        
-        // Get student's marks
-        $marks = Mark::where('student_id', $user->id)->get();
-        
-        // Calculate average mark
-        $averageMark = $marks->avg('mark');
-        
-        // Get highest mark
-        $highestMark = $marks->max('mark');
-        
-        // Get lowest mark
-        $lowestMark = $marks->min('mark');
-        
-        // Count subjects
-        $subjectsCount = $enrollments->pluck('subject_id')->unique()->count();
-        
+        try {
+            $user = auth()->user();
+
+            if (!$user) {
+                return [];
+            }
+
+            // Get student's enrollments
+            $enrollments = Enrollment::where('student_id', $user->id)->get();
+
+            // Get student's marks
+            $marks = Mark::where('student_id', $user->id)->get();
+
+            // Calculate average mark
+            $averageMark = $marks->avg('mark');
+
+            // Get highest mark
+            $highestMark = $marks->max('mark');
+
+            // Get lowest mark
+            $lowestMark = $marks->min('mark');
+
+            // Count subjects
+            $subjectsCount = $enrollments->pluck('subject_id')->unique()->count();
+
+            // Determine color based on average
+            $averageColor = 'primary';
+            if ($averageMark) {
+                $averageColor = $averageMark >= 75 ? 'success' : ($averageMark >= 50 ? 'warning' : 'danger');
+            }
+        } catch (\Exception $e) {
+            \Log::error('StudentStatsOverview Error: ' . $e->getMessage());
+            return [];
+        }
+
         return [
             Stat::make('My Subjects', $subjectsCount)
                 ->description('Enrolled subjects')
@@ -47,7 +62,7 @@ class StudentStatsOverview extends BaseWidget
             Stat::make('Average Mark', $averageMark ? number_format($averageMark, 1) : 'N/A')
                 ->description('Overall average')
                 ->descriptionIcon('heroicon-o-chart-bar')
-                ->color($averageMark >= 75 ? 'success' : ($averageMark >= 50 ? 'warning' : 'danger'))
+                ->color($averageColor)
                 ->chart([60, 65, 68, 70, 72, 74, 75]),
 
             Stat::make('Highest Mark', $highestMark ?? 'N/A')
@@ -67,7 +82,11 @@ class StudentStatsOverview extends BaseWidget
     // Only show for students
     public static function canView(): bool
     {
-        return auth()->user()?->hasRole('student') ?? false;
+        try {
+            $user = auth()->user();
+            return $user && $user->hasRole('student');
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
-
